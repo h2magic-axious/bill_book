@@ -11,6 +11,12 @@ class Category(models.Model):
     name = models.CharField("类名", max_length=16)
     parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, default=None)
 
+    class Direction(models.TextChoices):
+        INCOME = "income"
+        EXPEND = "expend"
+
+    direction = models.CharField("类型", choices=Direction.choices, max_length=6)
+
     def __str__(self):
         return self.name
 

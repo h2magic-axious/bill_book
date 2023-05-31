@@ -6,8 +6,9 @@ from .models import Category, Bill
 # Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "parent", "direction")
     search_fields = ("name", "parent__name")
-    list_filter = ("parent",)
+    list_filter = ("parent", "direction")
 
 
 @admin.register(Bill)
