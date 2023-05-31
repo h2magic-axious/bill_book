@@ -14,5 +14,5 @@ from django.utils.deprecation import MiddlewareMixin
 #
 class CloseCsrfMiddleware(MiddlewareMixin):
     @staticmethod
-    def process_request(self, request):
+    def process_request(request):
         request.csrf_processing_done = True
