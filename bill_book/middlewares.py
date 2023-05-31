@@ -1,5 +1,7 @@
 # from django.shortcuts import HttpResponse
-# from django.utils.deprecation import MiddlewareMixin
+from django.utils.deprecation import MiddlewareMixin
+
+
 #
 # import orjson
 #
@@ -10,3 +12,7 @@
 #         if "login" in path:
 #             pass
 #
+class CloseCsrfMiddleware(MiddlewareMixin):
+    @staticmethod
+    def process_request(self, request):
+        request.csrf_processing_done = True
