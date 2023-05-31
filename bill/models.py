@@ -1,3 +1,28 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class Category(models.Model):
+    class Meta:
+        db_table = "category"
+        verbose_name = "账单类目"
+        verbose_name_plural = verbose_name
+
+    name = models.CharField("类名", max_length=16)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, default=None)
+
+    def __str__(self):
+        return self.name
+
+
+class Bill(models.Model):
+    class Meta:
+        db_table = "bill"
+        verbose_name = "账单"
+        verbose_name_plural = verbose_name
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_time = models.DateTimeField("账单时间")
+    amount = models.IntegerField("金额")
+    title = models.CharField("标题", max_length=32)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
