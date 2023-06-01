@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Category, Bill
 
@@ -13,15 +14,21 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Bill)
 class BillAdmin(admin.ModelAdmin):
-    list_display = ["created_time", "direction", "title", "category", "display_amount"]
+    list_display = ["created_time", "title", "direction", "category", "display_amount"]
     search_fields = ("title",)
     list_filter = ("user", "category", "created_time")
     ordering = ["-created_time"]
 
     @admin.display(description="方向")
     def direction(self, obj: Bill):
-        return "收入" if obj.amount > 0 else "支出"
+        if obj.amount > 0:
+            return format_html(f"<span style='color: #28B55F'>收入</span>")
+        return "支出"
 
-    @admin.display(description="金额")
+    @admin.display(description="金额: 元")
     def display_amount(self, obj: Bill):
-        return f"{round(obj.amount / 100, 2)}"
+        amount = f"{round(abs(obj.amount) / 100, 2)}"
+        if obj.amount >0:
+            return format_html(f"<span style='color: #28B55F'>{amount}</span>")
+
+        return amount
