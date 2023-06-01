@@ -12,13 +12,13 @@ class Category(models.Model):
     parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     class Direction(models.TextChoices):
-        INCOME = "income"
-        EXPEND = "expend"
+        INCOME = "income", "收入"
+        EXPEND = "expend", "支出"
 
     direction = models.CharField("类型", choices=Direction.choices, max_length=6)
 
     def __str__(self):
-        return self.name
+        return f"{'' if self.parent is None else f'{self.parent.name}-'}{self.name}"
 
 
 class Bill(models.Model):
@@ -31,4 +31,4 @@ class Bill(models.Model):
     created_time = models.DateTimeField("账单时间")
     amount = models.IntegerField("金额")
     title = models.CharField("标题", max_length=32)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="类目")
