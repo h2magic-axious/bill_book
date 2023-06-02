@@ -28,7 +28,7 @@ class Bill(models.Model):
         verbose_name_plural = verbose_name
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_time = models.DateTimeField("账单时间")
+    created_time = models.DateField("账单时间")
     amount = models.IntegerField("金额", help_text="单位: 分")
     title = models.CharField("标题", max_length=32)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="类目")
