@@ -14,6 +14,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Bill)
 class BillAdmin(admin.ModelAdmin):
+    change_list_template = "admin/bill_change_list.html"
+
     list_display = ["created_time", "title", "direction", "category", "display_amount"]
     search_fields = ("title",)
     list_filter = ("user", "category", "created_time")
@@ -28,7 +30,7 @@ class BillAdmin(admin.ModelAdmin):
     @admin.display(description="金额: 元")
     def display_amount(self, obj: Bill):
         amount = f"{round(abs(obj.amount) / 100, 2)}"
-        if obj.amount >0:
+        if obj.amount > 0:
             return format_html(f"<span style='color: #28B55F'>{amount}</span>")
 
         return amount
